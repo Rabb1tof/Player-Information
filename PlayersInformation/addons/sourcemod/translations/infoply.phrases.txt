@@ -1,0 +1,94 @@
+"Phrases"
+{
+    "plyinfo_adminmenu"
+    {
+        "ru"        "Информация об игроках"
+        "en"        "Information about players"
+    }
+    
+    "plyinfo_playerexited"
+    {
+        "ru"        "{red}Невозможно произвести данное действие. {green}Игрок {default}покинул сервер!"
+        "en"        "It is impossible to produce the action. {green}Player {default}exited from server!"
+    }
+    
+    "plyinfo_menutitle"
+    {
+        "ru"        "Выберите игрока"
+        "en"        "Select player"
+    }
+	
+	"plyinfo_plytitle_menu"
+	{
+		"ru"        "Информация о игроке"
+		"en"        "Information about player"
+	}
+    
+    "plyinfo_plytitle"
+    {
+        "ru"        "{red}[Info] {olive}Информация о игроке"
+        "en"        "{red}[Info] {olive}Information about player"
+    }
+    
+    "plyinfo_nickname"
+    {
+        "#format"   "{1:N}"
+        "ru"        "Имя пользователя: {lightgreen}{1}"
+        "en"        "Username: {lightgreen}{1}"
+    }
+    
+    "plyinfo_nickname_menu"
+    {
+        "#format"   "{1:N}"
+        "ru"        "Имя пользователя: {1}"
+        "en"        "Username: {1}"
+    }
+	
+	"steamid_phrase_menu"
+	{
+		"#format"   "{1:s}"
+		"ru"        "SteamID: {1}"
+		"en"        "SteamID: {1}"
+	}
+	
+	"steamid_phrase_chat"
+	{
+		"#format"   "{1:s}"
+		"ru"        "SteamID: {darkred}{1}"
+		"en"        "SteamID: {darkred}{1}"
+	}
+    
+    "plyinfo_ip"
+    {
+        "#format"   "{1:s}"
+        "ru"        "IP-адрес: {green}{1}"
+        "en"        "IP-address: {green}{1}"
+    }
+    
+    "plyinfo_ip_menu"
+    {
+        "#format"   "{1:s}"
+        "ru"        "IP-адрес: {1}"
+        "en"        "IP-address: {1}"
+    }
+    
+    "plyinfo_connected"
+    {
+        "#format"   "{1:s}"
+        "ru"        "{red}[Info] Время соединения: {lightblue}{1}"
+        "en"        "{red}[Info] Connection time: {lightblue}{1}"
+    }
+    
+    "plyinfo_connected_menu"
+    {
+        "#format"  "{1:s}"
+        "ru"       "Время соединения: {1}"
+        "en"       "Connection time: {1}"
+    }
+    
+    "plyinfo_showprofile"
+    {
+        "ru"        "Отобразить профиль игрока в MOTD"
+        "en"        "Show player profile in MOTD"
+    }
+}
