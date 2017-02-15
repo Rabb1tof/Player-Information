@@ -8,8 +8,8 @@
     
     "plyinfo_playerexited"
     {
-        "ru"        "{red}Невозможно произвести данное действие. {green}Игрок {default}покинул сервер!"
-        "en"        "It is impossible to produce the action. {green}Player {default}exited from server!"
+        "ru"        "{RED}Невозможно произвести данное действие. {GREEN}Игрок {DEFAULT}покинул сервер!"
+        "en"        "{RED}It is impossible to produce the action. {GREEN}Player {DEFAULT}exited from server!"
     }
     
     "plyinfo_menutitle"
@@ -26,15 +26,15 @@
     
     "plyinfo_plytitle"
     {
-        "ru"        "{red}[Info] {olive}Информация о игроке"
-        "en"        "{red}[Info] {olive}Information about player"
+        "ru"        "{RED}[Info] {OLIVE}Информация о игроке"
+        "en"        "{RED}[Info] {OLIVE}Information about player"
     }
     
     "plyinfo_nickname"
     {
         "#format"   "{1:N}"
-        "ru"        "Имя пользователя: {lightgreen}{1}"
-        "en"        "Username: {lightgreen}{1}"
+        "ru"        "Имя пользователя: {LIGHTGREEN}{1}"
+        "en"        "Username: {LIGHTGREEN}{1}"
     }
     
     "plyinfo_nickname_menu"
@@ -54,15 +54,15 @@
 	"steamid_phrase_chat"
 	{
 		"#format"   "{1:s}"
-		"ru"        "SteamID: {darkred}{1}"
-		"en"        "SteamID: {darkred}{1}"
+		"ru"        "SteamID: {LIME}{1}"
+		"en"        "SteamID: {LIME}{1}"
 	}
     
     "plyinfo_ip"
     {
         "#format"   "{1:s}"
-        "ru"        "IP-адрес: {green}{1}"
-        "en"        "IP-address: {green}{1}"
+        "ru"        "IP-адрес: {GREEN}{1}"
+        "en"        "IP-address: {GREEN}{1}"
     }
     
     "plyinfo_ip_menu"
@@ -75,8 +75,8 @@
     "plyinfo_connected"
     {
         "#format"   "{1:s}"
-        "ru"        "{red}[Info] Время соединения: {lightblue}{1}"
-        "en"        "{red}[Info] Connection time: {lightblue}{1}"
+        "ru"        "{RED}[Info] Время соединения: {LIGHTBLUE}{1}"
+        "en"        "{RED}[Info] Connection time: {LIGHTBLUE}{1}"
     }
     
     "plyinfo_connected_menu"
@@ -90,5 +90,29 @@
     {
         "ru"        "Отобразить профиль игрока в MOTD"
         "en"        "Show player profile in MOTD"
+    }
+    
+    "plyinfo_status_admin"
+    {
+        "ru"        "Статус: Администратор"
+        "en"        "Status: Administrator"
+    }
+    
+    "plyinfo_status_admin_chat"
+    {
+        "ru"        "Статус: {PURPLE}Администратор"
+        "en"        "Status: {PURPLE}Administrator"
+    }
+    
+    "plyinfo_status_player"
+    {
+        "ru"       "Статус: Игрок"
+        "en"       "Status: Player"
+    }
+    
+    "plyinfo_status_player_chat"
+    {
+        "ru"       "Статус: {BLUE}Игрок"
+        "en"       "Status: {BLUE}Player"
     }
 }
