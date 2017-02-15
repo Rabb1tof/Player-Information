@@ -8,8 +8,8 @@
     
     "plyinfo_playerexited"
     {
-        "ru"        "{RED}Невозможно произвести данное действие. {GREEN}Игрок {DEFAULT}покинул сервер!"
-        "en"        "{RED}It is impossible to produce the action. {GREEN}Player {DEFAULT}exited from server!"
+        "ru"        "{red}Невозможно произвести данное действие. {green}Игрок {default}покинул сервер!"
+        "en"        "{red}It is impossible to produce the action. {green}Player {default}exited from server!"
     }
     
     "plyinfo_menutitle"
@@ -26,15 +26,15 @@
     
     "plyinfo_plytitle"
     {
-        "ru"        "{RED}[Info] {OLIVE}Информация о игроке"
-        "en"        "{RED}[Info] {OLIVE}Information about player"
+        "ru"        "{red}[Info] {olive}Информация о игроке"
+        "en"        "{red}[Info] {olive}Information about player"
     }
     
     "plyinfo_nickname"
     {
         "#format"   "{1:N}"
-        "ru"        "Имя пользователя: {LIGHTGREEN}{1}"
-        "en"        "Username: {LIGHTGREEN}{1}"
+        "ru"        "Имя пользователя: {lightgreen}{1}"
+        "en"        "Username: {lightgreen}{1}"
     }
     
     "plyinfo_nickname_menu"
@@ -54,15 +54,15 @@
 	"steamid_phrase_chat"
 	{
 		"#format"   "{1:s}"
-		"ru"        "SteamID: {LIME}{1}"
-		"en"        "SteamID: {LIME}{1}"
+		"ru"        "SteamID: {lime}{1}"
+		"en"        "SteamID: {lime}{1}"
 	}
     
     "plyinfo_ip"
     {
         "#format"   "{1:s}"
-        "ru"        "IP-адрес: {GREEN}{1}"
-        "en"        "IP-address: {GREEN}{1}"
+        "ru"        "IP-адрес: {green}{1}"
+        "en"        "IP-address: {green}{1}"
     }
     
     "plyinfo_ip_menu"
@@ -75,8 +75,8 @@
     "plyinfo_connected"
     {
         "#format"   "{1:s}"
-        "ru"        "{RED}[Info] Время соединения: {LIGHTBLUE}{1}"
-        "en"        "{RED}[Info] Connection time: {LIGHTBLUE}{1}"
+        "ru"        "{red}[Info] Время соединения: {lightblue}{1}"
+        "en"        "{red}[Info] Connection time: {lightblue}{1}"
     }
     
     "plyinfo_connected_menu"
@@ -100,8 +100,8 @@
     
     "plyinfo_status_admin_chat"
     {
-        "ru"        "Статус: {PURPLE}Администратор"
-        "en"        "Status: {PURPLE}Administrator"
+        "ru"        "Статус: {purple}Администратор"
+        "en"        "Status: {purple}Administrator"
     }
     
     "plyinfo_status_player"
@@ -112,7 +112,7 @@
     
     "plyinfo_status_player_chat"
     {
-        "ru"       "Статус: {BLUE}Игрок"
-        "en"       "Status: {BLUE}Player"
+        "ru"       "Статус: {blue}Игрок"
+        "en"       "Status: {blue}Player"
     }
 }
