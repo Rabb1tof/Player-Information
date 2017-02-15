@@ -1,13 +1,14 @@
 #include <sourcemod>
 #include <adminmenu>
-#include <multicolors> /* for colors */
+#include <csgo_colors> /* for colors csgo */
+#include <morecolors> /* for any game colors, but no csgo */
 
 #pragma newdecls required
 
 #define SGT(%0) SetGlobalTransTarget(%0)
 #define CID(%0) GetClientOfUserId(%0)
 #define CUD(%0) GetClientUserId(%0)
-#define VERSION "1.2"
+#define VERSION "1.2-fix"
 /* Global variables */
 TopMenu hTopMenu;
 int iViewPly[MAXPLAYERS+1];
@@ -54,24 +55,24 @@ public void OnPluginStart()
     padm = CreateConVar("sm_infoplayers_players_check_ip", "0", "Show the players IP to the other players", 0, true, 0.0, true, 1.0); 
     padm.AddChangeHook(CvarUpdater);
     CvarUpdater(padm, NULL_STRING, "0"); //что бы игроки не могли видеть чужой IP
+    delete padm;
     /* Logging */
     /*ConVar lg;
     lg = CreateConVar("sm_infoplayers_logging", "0", "Logging to file logs on SourceMod", 0, true, 0.0, true, 1.0);
     lg.AddChangeHook(ConVarUpdated);
     ConVarUpdated(lg, NULL_STRING, "0");
     delete lg; */
-    
     AutoExecConfig(true, "Info_Players");
 }
 
 public void CvarUpdater(ConVar padm, const char [] aV, const char [] mV)
 {
-    bAdmin = StrEqual(mV, "1");
+    bAdmin = (mV[0] == '1');
 }
 
 public void onCvarUpdated(ConVar cv, const char[] oV, const char[] nV) 
 {
-    bMenu = StrEqual(nV, "1");
+    bMenu = (nV[0] == '1');
 }
 
 /*public void ConVarUpdated( ConVar lg, const char [] iV, const char [] hV)
@@ -120,10 +121,15 @@ public int PlyMenuHandler(Menu menu, MenuAction action, int param1, int param2)
         int iTarget = CID(StringToInt(szBuffer));
         if (iTarget)
             RenderPlayerInformation(param1, iTarget);
-        else {
-            SGT(param1);
-            CPrintToChat(param1, "[SM] %t", "plyinfo_playerexited");
-            RenderPlayersMenu(param1);
+        else 
+        {
+                SGT(param1);
+                if(GetEngineVersion() == Engine_CSGO)
+                    CGOPrintToChat(param1, "[SM] %t", "plyinfo_playerexited");
+                else
+                    CPrintToChat(param1, "[SM] %t", "plyinfo_playerexited");
+                
+                RenderPlayersMenu(param1);
         }
     } else if (action == MenuAction_Cancel && param2 == MenuCancel_ExitBack && hTopMenu)
         hTopMenu.Display(param1, TopMenuPosition_LastCategory);
@@ -136,9 +142,13 @@ public int AboutPlyHandler(Menu menu, MenuAction action, int param1, int param2)
         int iTarget = CID(iViewPly[param1]);
         if (iTarget)
             RenderPlayerProfile(param1, iTarget);
-        else {
+        else 
+        {
             SGT(param1);
-            CPrintToChat(param1, "[SM] %t", "plyinfo_playerexited");
+            if(GetEngineVersion() == Engine_CSGO)
+                CGOPrintToChat(param1, "[SM] %t", "plyinfo_playerexited");
+            else
+                CPrintToChat(param1, "[SM] %t", "plyinfo_playerexited");
         }
     } else if (action == MenuAction_Cancel && param2 == MenuCancel_ExitBack)
         RenderPlayersMenu(param1);
@@ -168,8 +178,8 @@ void RenderPlayerInformation(int client, int target)
 
     char szBuffer[80];
     char szAuth[32];
-	char szPlayerIP[16];
-	char szConnectTime[15];
+    char szPlayerIP[16];
+    char szConnectTime[15];
     Menu hMenu;
     
     if (bMenu)
@@ -178,7 +188,12 @@ void RenderPlayerInformation(int client, int target)
     if (bMenu)
         hMenu.SetTitle("%t:\n ", "plyinfo_plytitle_menu");
     else
-        CPrintToChat(client, "%t:\n ", "plyinfo_plytitle");
+    {
+        if(GetEngineVersion() == Engine_CSGO)
+            CGOPrintToChat(client, "%t:\n ", "plyinfo_plytitle");
+        else
+            CPrintToChat(client, "%t:\n ", "plyinfo_plytitle");
+    }
 
     /**
      * 1. Username: Newbie
@@ -194,24 +209,60 @@ void RenderPlayerInformation(int client, int target)
     if (bMenu)
         hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
     else
-        CPrintToChat(client, "%t", "plyinfo_nickname", target);
+    {
+        if(GetEngineVersion() == Engine_CSGO)
+            CGOPrintToChat(client, "%t", "plyinfo_nickname", target);
+        else
+            CPrintToChat(client, "%t", "plyinfo_nickname", target);
+    }
+    
+    /* Status Client (Admin or player) */
+    if(GetUserAdmin(client) != INVALID_ADMIN_ID) /* Client Admin */
+    {
+        FormatEx(szBuffer, sizeof(szBuffer), "%t", "plyinfo_status_admin");
+        if(bMenu)
+            hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
+        else
+        {
+            if(GetEngineVersion() == Engine_CSGO)
+                CGOPrintToChat(client, "%t", "plyinfo_status_admin_chat");
+            else
+                CPrintToChat(client, "%t", "plyinfo_status_admin_chat");
+        }
+    }
+    else /* Client Player */
+    {
+        FormatEx(szBuffer, sizeof(szBuffer), "%t", "plyinfo_status_player");
+        if(bMenu)
+            hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
+        else
+        {
+            if(GetEngineVersion() == Engine_CSGO)
+                CGOPrintToChat(client, "%t", "plyinfo_status_player_chat");
+            else
+                CPrintToChat(client, "%t", "plyinfo_status_player_chat");
+        }
+    }
     
     /* SteamID */
     if (!GetClientAuthId(target, AuthId_Steam2, szAuth, sizeof(szAuth)))
     strcopy(szAuth, sizeof(szAuth), "STEAM_ID_PENDING");
 
-     if (bMenu)
-     {
-     FormatEx(szBuffer, sizeof(szBuffer), "%t", "steamid_phrase_menu", szAuth);
-     hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
-     }
-         else
-         {
-             CPrintToChat(client, "%t", "steamid_phrase_chat", szAuth);
-         }
+    if (bMenu)
+    {
+        FormatEx(szBuffer, sizeof(szBuffer), "%t", "steamid_phrase_menu", szAuth);
+        hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
+    }
+        else
+        {
+            if(GetEngineVersion() == Engine_CSGO)
+                CGOPrintToChat(client, "%t", "steamid_phrase_chat", szAuth);
+            else
+                CPrintToChat(client, "%t", "steamid_phrase_chat", szAuth);
+        }
 
     /* IP */
-    if (!bAdmin || GetUserAdmin(client) != INVALID_ADMIN_ID) /* IP now Draw to players, only admins */
+    if (bAdmin || GetUserAdmin(client) != INVALID_ADMIN_ID) /* IP now Draw to players, only admins */
     {
         if (!GetClientIP(target, szPlayerIP, sizeof(szPlayerIP)))
             strcopy(szPlayerIP, sizeof(szPlayerIP), "127.0.0.1");
@@ -219,7 +270,12 @@ void RenderPlayerInformation(int client, int target)
         if (bMenu)
             hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
         else
-            CPrintToChat(client, "%t", "plyinfo_ip", szPlayerIP);
+        {
+            if(GetEngineVersion() == Engine_CSGO)
+                CGOPrintToChat(client, "%t", "plyinfo_ip", szPlayerIP);
+            else
+                CPrintToChat(client, "%t", "plyinfo_ip", szPlayerIP);
+        }
     }
     
     /* Connection time */
@@ -228,7 +284,13 @@ void RenderPlayerInformation(int client, int target)
     if (bMenu)
         hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
     else
-        CPrintToChat(client, "%t", "plyinfo_connected", szConnectTime);
+    {
+        if(GetEngineVersion() == Engine_CSGO)
+            CGOPrintToChat(client, "%t", "plyinfo_connected", szConnectTime);
+        else
+            CPrintToChat(client, "%t", "plyinfo_connected", szConnectTime);
+    }
+    
    /* if (bLogging) // Logging Connection time 
         LogMessage(szBuffer); */ 
     
