@@ -2,6 +2,7 @@
 #include <adminmenu>
 #include <csgo_colors> /* for colors csgo */
 #include <morecolors> /* for any game colors, but no csgo */
+#include <geoipcity> /* for draw country and city */
 
 #pragma newdecls required
 
@@ -291,17 +292,46 @@ void RenderPlayerInformation(int client, int target)
             CPrintToChat(client, "%t", "plyinfo_connected", szConnectTime);
     }
     
+    /* GeoIP */
+    char szCity[45], szRegion[45], szCountry[45], szCountryCode[3], szCountryCode3[4];
+    
+    GeoipGetRecord(szPlayerIP, szCity, szRegion, szCountry, szCountryCode, szCountryCode3);
+    FormatEx(szCountry, sizeof(szCountry), "%t", "plyinfo_country");
+    FormatEx(szCity, sizeof(szCity), "%t", "plyinfo_city");
+    FormatEx(szRegion, sizeof(szRegion), "%t", "plyinfo_region");
+    if(bMenu)
+    {
+        hMenu.AddItem(NULL_STRING, szCountry, ITEMDRAW_DISABLED);
+        hMenu.AddItem(NULL_STRING, szCity, ITEMDRAW_DISABLED);
+        hMenu.AddItem(NULL_STRING, szRegion, ITEMDRAW_DISABLED);
+    }
+    else 
+    {
+        if(GetEngineVersion() == Engine_CSGO)
+        {
+            CGOPrintToChat(client, "%t", "plyinfo_country_chat", szCountry);
+            CGOPrintToChat(client, "%t", "plyinfo_city_chat", szCity);
+            CGOPrintToChat(client, "%t", "plyinfo_region_chat", szRegion);
+        }
+        else
+        {
+            CPrintToChat(client, "%t", "plyinfo_country_chat", szCountry);
+            CPrintToChat(client, "%t", "plyinfo_city_chat", szCity);
+            CPrintToChat(client, "%t", "plyinfo_region_chat", szRegion); 
+        }
+    }
+    
    /* if (bLogging) // Logging Connection time 
         LogMessage(szBuffer); */ 
     
     /* Spacer and MOTD */
     if ((GetEngineVersion() != Engine_CSGO)) /* OFF on CS:GO */
     {
-    if (bMenu) {
-        hMenu.AddItem(NULL_STRING, NULL_STRING, ITEMDRAW_SPACER);
-        FormatEx(szBuffer, sizeof(szBuffer), "%t", "plyinfo_showprofile");
-        hMenu.AddItem(NULL_STRING, szBuffer);
-    }
+        if (bMenu) {
+            hMenu.AddItem(NULL_STRING, NULL_STRING, ITEMDRAW_SPACER);
+            FormatEx(szBuffer, sizeof(szBuffer), "%t", "plyinfo_showprofile");
+            hMenu.AddItem(NULL_STRING, szBuffer);
+        }
     }
     
     /* DRAW, IF THE MENU. */
@@ -314,7 +344,7 @@ void RenderPlayerProfile(int client, int target)
     char szBuffer[64];
     if (GetClientAuthId(target, AuthId_SteamID64, szBuffer, sizeof(szBuffer))) 
     {
-        Format(szBuffer, sizeof(szBuffer), "https://steamcommunity.com/profiles/%s/", szBuffer);
+        Format(szBuffer, sizeof(szBuffer), "https://steamcommunity.com/id/%s/", szBuffer);
         
         ShowMOTDPanel(client, "Steam Profile", szBuffer, MOTDPANEL_TYPE_URL);
     }
