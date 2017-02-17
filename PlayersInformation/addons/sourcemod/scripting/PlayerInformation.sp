@@ -191,9 +191,9 @@ void RenderPlayerInformation(int client, int target)
     else
     {
         if(GetEngineVersion() == Engine_CSGO)
-            CGOPrintToChat(client, "%t:\n ", "plyinfo_plytitle");
+            CGOPrintToChat(client, "%t", "plyinfo_plytitle");
         else
-            CPrintToChat(client, "%t:\n ", "plyinfo_plytitle");
+            CPrintToChat(client, "%t", "plyinfo_plytitle");
     }
 
     /**
@@ -263,10 +263,10 @@ void RenderPlayerInformation(int client, int target)
         }
 
     /* IP */
+    if (!GetClientIP(target, szPlayerIP, sizeof(szPlayerIP)))
+        strcopy(szPlayerIP, sizeof(szPlayerIP), "127.0.0.1");
     if (bAdmin || GetUserAdmin(client) != INVALID_ADMIN_ID) /* IP now Draw to players, only admins */
     {
-        if (!GetClientIP(target, szPlayerIP, sizeof(szPlayerIP)))
-            strcopy(szPlayerIP, sizeof(szPlayerIP), "127.0.0.1");
         Format(szBuffer, sizeof(szBuffer), "%t", "plyinfo_ip_menu", szPlayerIP);
         if (bMenu)
             hMenu.AddItem(NULL_STRING, szBuffer, ITEMDRAW_DISABLED);
@@ -293,31 +293,34 @@ void RenderPlayerInformation(int client, int target)
     }
     
     /* GeoIP */
-    char szCity[45], szRegion[45], szCountry[45], szCountryCode[3], szCountryCode3[4];
-    
-    GeoipGetRecord(szPlayerIP, szCity, szRegion, szCountry, szCountryCode, szCountryCode3);
-    FormatEx(szCountry, sizeof(szCountry), "%t", "plyinfo_country");
-    FormatEx(szCity, sizeof(szCity), "%t", "plyinfo_city");
-    FormatEx(szRegion, sizeof(szRegion), "%t", "plyinfo_region");
-    if(bMenu)
+    char szCity[45], szRegion[45], szCountry[45], szCountryCode[3], szCountryCode3[4], szBuff[150], szBuff2[150], szBuff3[150];
+    GetClientIP(target, szPlayerIP, sizeof(szPlayerIP));
+    if(GeoipGetRecord(szPlayerIP, szCity, szRegion, szCountry, szCountryCode, szCountryCode3))
     {
-        hMenu.AddItem(NULL_STRING, szCountry, ITEMDRAW_DISABLED);
-        hMenu.AddItem(NULL_STRING, szCity, ITEMDRAW_DISABLED);
-        hMenu.AddItem(NULL_STRING, szRegion, ITEMDRAW_DISABLED);
-    }
-    else 
-    {
-        if(GetEngineVersion() == Engine_CSGO)
+        GeoipGetRecord(szPlayerIP, szCity, szRegion, szCountry, szCountryCode, szCountryCode3);
+        FormatEx(szCountry, sizeof(szCountry), "%t", "plyinfo_country", szBuff);
+        FormatEx(szCity, sizeof(szCity), "%t", "plyinfo_city", szBuff2);
+        FormatEx(szRegion, sizeof(szRegion), "%t", "plyinfo_region", szBuff3);
+        if(bMenu)
         {
-            CGOPrintToChat(client, "%t", "plyinfo_country_chat", szCountry);
-            CGOPrintToChat(client, "%t", "plyinfo_city_chat", szCity);
-            CGOPrintToChat(client, "%t", "plyinfo_region_chat", szRegion);
+            hMenu.AddItem(NULL_STRING, szCountry, ITEMDRAW_DISABLED);
+            hMenu.AddItem(NULL_STRING, szCity, ITEMDRAW_DISABLED);
+            hMenu.AddItem(NULL_STRING, szRegion, ITEMDRAW_DISABLED);
         }
-        else
+        else 
         {
-            CPrintToChat(client, "%t", "plyinfo_country_chat", szCountry);
-            CPrintToChat(client, "%t", "plyinfo_city_chat", szCity);
-            CPrintToChat(client, "%t", "plyinfo_region_chat", szRegion); 
+            if(GetEngineVersion() == Engine_CSGO)
+            {
+                CGOPrintToChat(client, "%t", "plyinfo_country_chat", szCountry);
+                CGOPrintToChat(client, "%t", "plyinfo_city_chat", szCity);
+                CGOPrintToChat(client, "%t", "plyinfo_region_chat", szRegion);
+            }
+            else
+            {
+                CPrintToChat(client, "%t", "plyinfo_country_chat", szCountry);
+                CPrintToChat(client, "%t", "plyinfo_city_chat", szCity);
+                CPrintToChat(client, "%t", "plyinfo_region_chat", szRegion); 
+            }
         }
     }
     
