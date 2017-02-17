@@ -26,8 +26,8 @@
     
     "plyinfo_plytitle"
     {
-        "ru"        "{red}[Info] {olive}Информация о игроке"
-        "en"        "{red}[Info] {olive}Information about player"
+        "ru"        "{red}[{blue}Info{red}] {olive}Информация о игроке"
+        "en"        "{red}[{blue}Info{red}] {olive}Information about player"
     }
     
     "plyinfo_nickname"
@@ -75,8 +75,8 @@
     "plyinfo_connected"
     {
         "#format"   "{1:s}"
-        "ru"        "{red}[Info] Время соединения: {lightblue}{1}"
-        "en"        "{red}[Info] Connection time: {lightblue}{1}"
+        "ru"        "{red}[{blue}Info{red}] {default}Время соединения: {lightblue}{1}"
+        "en"        "{red}[{blue}Info{red}] {default}Connection time: {lightblue}{1}"
     }
     
     "plyinfo_connected_menu"
@@ -114,5 +114,47 @@
     {
         "ru"       "Статус: {blue}Игрок"
         "en"       "Status: {blue}Player"
+    }
+    
+    "plyinfo_country"
+    {
+        "#format"     "{1:s}"
+        "ru"          "Страна: {1}"
+        "en"          "Country: {1}"
+    }
+    
+    "plyinfo_country_chat"
+    {
+        "#format"     "{1:s}"
+        "ru"          "Страна: {olive}{1}"
+        "en"          "Country: {olive}{1}"
+    }
+    
+    "plyinfo_city"
+    {
+        "#format"     "{1:s}"
+        "ru"          "Город: {1}"
+        "en"          "City: {1}"
+    }
+    
+    "plyinfo_city_chat"
+    {
+        "#format"     "{1:s}"
+        "ru"          "Город: {blue}{1}"
+        "en"          "City: {blue}{1}"
+    }
+    
+    "plyinfo_region"
+    {
+        "#format"     "{1:s}"
+        "ru"          "Регион: {1}"
+        "en"          "State: {1}"
+    }
+    
+    "plyinfo_region_chat"
+    {
+        "#format"     "{1:s}"
+        "ru"          "Регион: {green}{1}"
+        "en"          "State: {green}{1}"
     }
 }
