@@ -26,8 +26,8 @@
     
     "plyinfo_plytitle"
     {
-        "ru"        "{red}[{blue}Info{red}] {olive}Информация о игроке"
-        "en"        "{red}[{blue}Info{red}] {olive}Information about player"
+        "ru"        "{blue}[{red}Info{blue}] {olive}Информация о игроке"
+        "en"        "{blue}[{red}Info{blue}] {olive}Information about player"
     }
     
     "plyinfo_nickname"
@@ -75,8 +75,8 @@
     "plyinfo_connected"
     {
         "#format"   "{1:s}"
-        "ru"        "{red}[{blue}Info{red}] {default}Время соединения: {lightblue}{1}"
-        "en"        "{red}[{blue}Info{red}] {default}Connection time: {lightblue}{1}"
+        "ru"        "{blue}[{red}Info{blue}] {default}Время соединения: {lightblue}{1}"
+        "en"        "{blue}[{red}Info{blue}] {default}Connection time: {lightblue}{1}"
     }
     
     "plyinfo_connected_menu"

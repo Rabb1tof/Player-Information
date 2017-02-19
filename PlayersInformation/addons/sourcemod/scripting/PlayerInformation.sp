@@ -2,6 +2,13 @@
 #include <adminmenu>
 #include <csgo_colors> /* for colors csgo */
 #include <morecolors> /* for any game colors, but no csgo */
+
+#if !defined REQUIRE_EXTENSIONS
+#define REQUIRE_EXTENSIONS
+#endif
+#if !defined AUTOLOAD_EXTENSIONS
+#define AUTOLOAD_EXTENSIONS
+#endif
 #include <geoipcity> /* for draw country and city */
 
 #pragma newdecls required
@@ -15,6 +22,7 @@ TopMenu hTopMenu;
 int iViewPly[MAXPLAYERS+1];
 bool bMenu;
 bool bAdmin;
+char szPath[PLATFORM_MAX_PATH];
 /* bool bLogging; */
 ConVar version_plugin;
 /* Info of plugin */
@@ -38,6 +46,8 @@ public void OnPluginStart()
     /* NO WORK!! RegAdminCmd("sm_infoa", Cmd_Info_Admin, "Same <sm_info>, but only for admins"); */
     
     LoadTranslations("infoply.phrases");
+    
+    BuildPath(Path_SM, szPath, sizeof(szPath), "logs/playerinfo.log"); /* For logs */
 
     TopMenu topmenu;
     if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != null))
@@ -265,6 +275,9 @@ void RenderPlayerInformation(int client, int target)
     /* IP */
     if (!GetClientIP(target, szPlayerIP, sizeof(szPlayerIP)))
         strcopy(szPlayerIP, sizeof(szPlayerIP), "127.0.0.1");
+    
+    LogToFileEx(szPath, "IP - %s", szPlayerIP);
+    
     if (bAdmin || GetUserAdmin(client) != INVALID_ADMIN_ID) /* IP now Draw to players, only admins */
     {
         Format(szBuffer, sizeof(szBuffer), "%t", "plyinfo_ip_menu", szPlayerIP);
@@ -294,13 +307,13 @@ void RenderPlayerInformation(int client, int target)
     
     /* GeoIP */
     char szCity[45], szRegion[45], szCountry[45], szCountryCode[3], szCountryCode3[4], szBuff[150], szBuff2[150], szBuff3[150];
-    GetClientIP(target, szPlayerIP, sizeof(szPlayerIP));
     if(GeoipGetRecord(szPlayerIP, szCity, szRegion, szCountry, szCountryCode, szCountryCode3))
     {
-        GeoipGetRecord(szPlayerIP, szCity, szRegion, szCountry, szCountryCode, szCountryCode3);
-        FormatEx(szCountry, sizeof(szCountry), "%t", "plyinfo_country", szBuff);
-        FormatEx(szCity, sizeof(szCity), "%t", "plyinfo_city", szBuff2);
-        FormatEx(szRegion, sizeof(szRegion), "%t", "plyinfo_region", szBuff3);
+        FormatEx(szBuff, sizeof(szBuff), "%t", "plyinfo_country", szCountry);
+        FormatEx(szBuff2, sizeof(szBuff2), "%t", "plyinfo_city", szCity);
+        FormatEx(szBuff3, sizeof(szBuff3), "%t", "plyinfo_region", szRegion);
+        
+        LogToFileEx(szPath, "Country - %s, City - %s, Region - %s", szBuff, szBuff2, szBuff3);
         if(bMenu)
         {
             hMenu.AddItem(NULL_STRING, szCountry, ITEMDRAW_DISABLED);
@@ -323,6 +336,8 @@ void RenderPlayerInformation(int client, int target)
             }
         }
     }
+    else
+        LogToFileEx(szPath, "GeoIP is don`t worked.");
     
    /* if (bLogging) // Logging Connection time 
         LogMessage(szBuffer); */ 
