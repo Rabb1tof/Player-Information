@@ -310,15 +310,15 @@ void RenderPlayerInformation(int client, int target)
     if(GeoipGetRecord(szPlayerIP, szCity, szRegion, szCountry, szCountryCode, szCountryCode3))
     {
         FormatEx(szBuff, sizeof(szBuff), "%t", "plyinfo_country", szCountry);
-        FormatEx(szBuff2, sizeof(szBuff2), "%t", "plyinfo_city", szCity);
-        FormatEx(szBuff3, sizeof(szBuff3), "%t", "plyinfo_region", szRegion);
+        FormatEx(szBuff3, sizeof(szBuff3), "%t", "plyinfo_city", szCity);
+        FormatEx(szBuff2, sizeof(szBuff2), "%t", "plyinfo_region", szRegion);
         
-        LogToFileEx(szPath, "Country - %s, City - %s, Region - %s", szBuff, szBuff2, szBuff3);
+        LogToFileEx(szPath, "Country - %s, City - %s, Region - %s", szCountry, szCity, szRegion);
         if(bMenu)
         {
-            hMenu.AddItem(NULL_STRING, szCountry, ITEMDRAW_DISABLED);
-            hMenu.AddItem(NULL_STRING, szCity, ITEMDRAW_DISABLED);
-            hMenu.AddItem(NULL_STRING, szRegion, ITEMDRAW_DISABLED);
+            hMenu.AddItem(NULL_STRING, szBuff, ITEMDRAW_DISABLED);
+            hMenu.AddItem(NULL_STRING, szBuff2, ITEMDRAW_DISABLED);
+            hMenu.AddItem(NULL_STRING, szBuff3, ITEMDRAW_DISABLED);
         }
         else 
         {
